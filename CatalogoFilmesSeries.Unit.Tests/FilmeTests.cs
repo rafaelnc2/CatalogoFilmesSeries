@@ -18,8 +18,8 @@ public class FilmeTests
             _filme.AddCategoria(categoria);
     }
     
-    [Fact(DisplayName = "Incluir novo filme com sucesso")]
-    public void Deve_Criar_Um_Filme_Com_Sucesso()
+    [Fact(DisplayName = "Criar novo filme com sucesso")]
+    public void Criar_Filme_Com_Sucesso()
     {
         //Arrange
         DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now.Date);
@@ -33,9 +33,32 @@ public class FilmeTests
         Assert.Null(_filme.DataAtualizacao);
         Assert.Equal(_filme.Categorias.Count, _filme.Categorias.Count);
     }
+
+    [Fact(DisplayName = "Retornar erro ao tentar criar novo filme com dados inválidos")]
+    public void Retornar_Erro_Ao_Tentar_Criar_Filme_Com_Dados_Invalidos()
+    {
+        //Arrange
+        string tituloInvalido = "xx";
+        string tituloOriginalInvalido = "xx";
+        int anoLancamentoInvalido = 0;
+        int classificacaoInvalida = 0;
+        int duracaoInvalida = 0;
+        string sinopseInvalida = "";
+        string urlInvalida = "url-invalida";
+        
+        //Act
+        var filme = Filme.Create(tituloInvalido, tituloOriginalInvalido, anoLancamentoInvalido, classificacaoInvalida, duracaoInvalida, sinopseInvalida, urlInvalida);
+        
+        //Assert
+        Assert.IsType<Filme>(filme);
+        Assert.IsType<Guid>(filme.Id);
+        Assert.Equal(Guid.Empty, filme.Id);
+        Assert.True(filme.HasErrors);
+        Assert.Equal(7, filme.Errors.Count);
+    }
     
     [Fact(DisplayName = "Atualizar filme com sucesso")]
-    public void Deve_Atualizar_Um_Filme_Com_Sucesso()
+    public void Atualizar_Filme_Com_Sucesso()
     {
         //Arrange
         string tituloAtualizado = "Kraven, o Caçador";
@@ -58,6 +81,26 @@ public class FilmeTests
         Assert.NotNull(_filme.DataAtualizacao);
     }
 
+    [Fact(DisplayName = "Retornar erro ao tentar atualizar filme com dados inválidos")]
+    public void Retornar_Erro_Ao_Tentar_Atualizar_Filme_Com_Dados_Invalidos()
+    {
+        //Arrange
+        string tituloInvalido = "xx";
+        string tituloOriginalInvalido = "xx";
+        int anoLancamentoInvalido = 0;
+        int classificacaoInvalida = 0;
+        int duracaoInvalida = 0;
+        string sinopseInvalida = "";
+        string urlInvalida = "url-invalida";
+        
+        //Act
+        _filme.Update(tituloInvalido, tituloOriginalInvalido, anoLancamentoInvalido, classificacaoInvalida, duracaoInvalida, sinopseInvalida, 0,0, urlInvalida);
+        
+        //Assert
+        Assert.True(_filme.HasErrors);
+        Assert.Equal(7, _filme.Errors.Count);
+    }
+    
     [Theory(DisplayName = "Não deve incluir categorias inválidas")]
     [InlineData("")]
     [InlineData(" ")]
