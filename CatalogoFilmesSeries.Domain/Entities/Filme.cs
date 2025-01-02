@@ -94,7 +94,7 @@ public class Filme : Entity
     }
     
     public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
-        int duracao, string sinopse, double avaliacaoImdb, int popularidadeImdb, string urlImagem)
+        int duracao, string sinopse, double? avaliacaoImdb, int? popularidadeImdb, string urlImagem)
     {
         _errors.Clear();
         
@@ -109,8 +109,13 @@ public class Filme : Entity
         ClassificacaoEtaria = classificacaoEtaria;
         Duracao = duracao;
         Sinopse = sinopse;
-        AvaliacaoImdb = avaliacaoImdb;
-        PopularidadeImdb = popularidadeImdb;
+        
+        if(avaliacaoImdb.HasValue)
+            AvaliacaoImdb = avaliacaoImdb.Value;
+        
+        if(popularidadeImdb.HasValue)
+            PopularidadeImdb = popularidadeImdb.Value;
+        
         UrlImagem = urlImagem;
         
         DataAtualizacao = DateTime.Now;
