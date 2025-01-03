@@ -1,15 +1,15 @@
 ﻿namespace CatalogoFilmesSeries.Domain.Entities;
 
-public class Filme : Entity
+public sealed class Filme : Show
 {
-    private List<string> _categorias = new();
-
+    public int Duracao { get; private set; }
+    
     private Filme()
     {
         
     }
     
-    protected Filme(Guid id, string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria, 
+    private Filme(Guid id, string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria, 
         int duracao, string sinopse, List<string> categorias, string urlImagem, DateTime dataInclusao, DateTime? dataAtualizacao,
         double avaliacaoImdb = 0, int popularidadeImdb = 0)
     {
@@ -29,44 +29,8 @@ public class Filme : Entity
         
         _categorias = categorias;
     }
-    
-    public string Titulo { get; private set; }
-    public string TituloOriginal { get; private set; }
-    public int AnoLancamento { get; private set; }
-    public int ClassificacaoEtaria { get; private set; }
-    public int Duracao { get; private set; }
-    public string Sinopse { get; private set; }
-    public IReadOnlyList<string> Categorias { get => _categorias; }
-    public string UrlImagem { get; private set; }
 
-    
-    public double AvaliacaoImdb { get; private set; }
-    public int PopularidadeImdb { get; private set; }
-
-
-    public void SetAvaliacaoImdb(double avaliacao)
-    {
-        if (avaliacao < 0)
-        {
-            _errors.Add("Avaliação informada é inválida");
-            return;
-        }
-        
-        AvaliacaoImdb = avaliacao;   
-    }
-
-    public void SetPopularidadeImdb(int popularidade)
-    {
-        if (popularidade < 0)
-        {
-            _errors.Add("Popularidade informada é inválida");
-            return;
-        }
-        
-        PopularidadeImdb = popularidade;
-    }
-
-    public static Filme? Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
+    public static Filme Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         int duracao, string sinopse, string urlImagem)
     {
         _errors.Clear();
@@ -120,26 +84,7 @@ public class Filme : Entity
         
         DataAtualizacao = DateTime.Now;
     }
-
-    public void AddCategoria(string categoria)
-    {
-        if (string.IsNullOrWhiteSpace(categoria) ||
-            _categorias.Exists(cat => cat.Equals(categoria, StringComparison.CurrentCultureIgnoreCase)))
-        {
-            _errors.Add("Categoria nula, em branco ou já incluída.");
-            return;
-        }
-        
-        _categorias.Add(categoria);
-    }
-    public void RemoveCategoria(string categoria)
-    {
-        if (string.IsNullOrWhiteSpace(categoria))
-            return;
-        
-        _categorias.Remove(categoria);  
-    } 
-    public void LimparCategorias() => _categorias.Clear();
+    
 
     private static void ValidarDados(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         int duracao, string sinopse, string urlImagem)
