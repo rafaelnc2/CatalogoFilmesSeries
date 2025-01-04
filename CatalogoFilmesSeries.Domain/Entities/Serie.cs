@@ -39,12 +39,12 @@ public sealed class Serie : Show
     public static Serie Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         string sinopse, string urlImagem, int quantidadeEpisodios, double duracaoEpisodios)
     {
-        _errors.Clear();
+        var serieValidate = new Serie();
         
-        ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, sinopse, urlImagem, quantidadeEpisodios, duracaoEpisodios);
+        serieValidate.ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, sinopse, urlImagem, quantidadeEpisodios, duracaoEpisodios);
 
-        if (_errors.Any())
-            return new();
+        if (serieValidate.HasErrors)
+            return serieValidate;
 
         Serie serie = new(
             id: Guid.NewGuid(),
@@ -67,8 +67,6 @@ public sealed class Serie : Show
     public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         string sinopse, double? avaliacaoImdb, int? popularidadeImdb, string urlImagem, int quantidadeEpisodios, double duracaoEpisodios)
     {
-        _errors.Clear();
-        
         ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, sinopse, urlImagem, quantidadeEpisodios, duracaoEpisodios);
         
         if(HasErrors)
@@ -94,9 +92,11 @@ public sealed class Serie : Show
         DataAtualizacao = DateTime.Now;
     }
     
-    private static void ValidarDados(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
+    private void ValidarDados(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         string sinopse, string urlImagem, int quantidadeEpisodios, double duracaoEpisodios)
     {
+        _errors.Clear();
+        
         if (string.IsNullOrWhiteSpace(titulo) || titulo.Length < 3)
             _errors.Add("Titulo inválido");
         

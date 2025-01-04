@@ -33,12 +33,12 @@ public sealed class Filme : Show
     public static Filme Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         int duracao, string sinopse, string urlImagem)
     {
-        _errors.Clear();
+        var filmeValidate = new Filme();
+        
+        filmeValidate.ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, duracao, sinopse, urlImagem);
 
-        ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, duracao, sinopse, urlImagem);
-
-        if (_errors.Any())
-            return new();
+        if (filmeValidate.HasErrors)
+            return filmeValidate;
         
         Filme filme = new(
             id: Guid.NewGuid(),
@@ -60,8 +60,6 @@ public sealed class Filme : Show
     public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         int duracao, string sinopse, double? avaliacaoImdb, int? popularidadeImdb, string urlImagem)
     {
-        _errors.Clear();
-        
         ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, duracao, sinopse, urlImagem);
         
         if(HasErrors)
@@ -86,9 +84,11 @@ public sealed class Filme : Show
     }
     
 
-    private static void ValidarDados(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
+    private void ValidarDados(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         int duracao, string sinopse, string urlImagem)
     {
+        _errors.Clear();
+        
         if (string.IsNullOrWhiteSpace(titulo) || titulo.Length < 3)
             _errors.Add("Titulo inválido");
         
