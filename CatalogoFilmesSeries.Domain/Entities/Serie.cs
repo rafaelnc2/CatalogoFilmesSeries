@@ -64,6 +64,36 @@ public sealed class Serie : Show
         return serie;
     }
         
+    public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
+        string sinopse, double? avaliacaoImdb, int? popularidadeImdb, string urlImagem, int quantidadeEpisodios, double duracaoEpisodios)
+    {
+        _errors.Clear();
+        
+        ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, sinopse, urlImagem, quantidadeEpisodios, duracaoEpisodios);
+        
+        if(HasErrors)
+            return;
+        
+        Titulo = titulo;
+        TituloOriginal = tituloOriginal;
+        AnoLancamento = anoLancamento;
+        ClassificacaoEtaria = classificacaoEtaria;
+        Sinopse = sinopse;
+        
+        if(avaliacaoImdb.HasValue)
+            AvaliacaoImdb = avaliacaoImdb.Value;
+        
+        if(popularidadeImdb.HasValue)
+            PopularidadeImdb = popularidadeImdb.Value;
+        
+        UrlImagem = urlImagem;
+        
+        QuantidadeEpisodios = quantidadeEpisodios;
+        DuracaoEpisodios = duracaoEpisodios;
+        
+        DataAtualizacao = DateTime.Now;
+    }
+    
     private static void ValidarDados(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         string sinopse, string urlImagem, int quantidadeEpisodios, double duracaoEpisodios)
     {

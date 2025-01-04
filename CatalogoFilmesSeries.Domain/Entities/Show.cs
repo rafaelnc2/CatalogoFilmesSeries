@@ -15,6 +15,7 @@ public abstract class Show : Entity
     
     public IReadOnlyList<string> Categorias { get => _categorias; }
     
+    
     public void SetAvaliacaoImdb(double avaliacao)
     {
         if (avaliacao < 0)
@@ -37,6 +38,7 @@ public abstract class Show : Entity
         PopularidadeImdb = popularidade;
     }
     
+    
     public void AddCategoria(string categoria)
     {
         if (string.IsNullOrWhiteSpace(categoria) ||
@@ -48,6 +50,7 @@ public abstract class Show : Entity
         
         _categorias.Add(categoria);
     }
+    
     public void RemoveCategoria(string categoria)
     {
         if (string.IsNullOrWhiteSpace(categoria))
@@ -55,5 +58,6 @@ public abstract class Show : Entity
         
         _categorias.Remove(categoria);  
     } 
+    
     public void LimparCategorias() => _categorias.Clear();
 }
