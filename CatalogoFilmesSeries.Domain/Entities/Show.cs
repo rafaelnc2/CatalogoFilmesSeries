@@ -11,7 +11,7 @@ public abstract class Show : Entity
     public string Sinopse { get; protected set; }
     public string UrlImagem { get; protected set; }
     public double AvaliacaoImdb { get; protected set; }
-    public int PopularidadeImdb { get; protected set; }
+    public double PopularidadeImdb { get; protected set; }
     
     public IReadOnlyList<string> Categorias { get => _categorias; }
     
@@ -27,7 +27,7 @@ public abstract class Show : Entity
         AvaliacaoImdb = avaliacao;   
     }
 
-    public void SetPopularidadeImdb(int popularidade)
+    public void SetPopularidadeImdb(double popularidade)
     {
         if (popularidade < 0)
         {

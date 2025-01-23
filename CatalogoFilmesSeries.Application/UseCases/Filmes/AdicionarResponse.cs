@@ -10,7 +10,7 @@ public sealed record AdicionarResponse(
     string UrlImagem,
     
     double AvaliacaoImdb,
-    int PopularidadeImdb,
+    double PopularidadeImdb,
     
     DateTime DataInclusao
 );
