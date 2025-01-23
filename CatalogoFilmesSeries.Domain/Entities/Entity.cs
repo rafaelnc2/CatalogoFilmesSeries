@@ -4,7 +4,7 @@ namespace CatalogoFilmesSeries.Domain.Entities;
 
 public abstract class Entity
 {
-    protected static List<string> _errors = new();
+    protected List<string> _errors = new();
     
     public Guid Id { get; protected set; }
     public DateTime DataInclusao { get; protected  set; }

@@ -17,6 +17,7 @@ public class SerieTests
             16,
             "A complexa relação de Kraven com o pai, Nikolai Kravinoff, o leva a uma jornada de vingança com consequências brutais, o motivando a se tornar um dos maiores e mais temidos caçadores do mundo.", 
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
+            1,
             10,
             35
         );
@@ -51,6 +52,7 @@ public class SerieTests
         int classificacaoInvalida = 0;
         string sinopseInvalida = "";
         string urlInvalida = "url-invalida";
+        int temporadaInvalido = 0;
         int quantidadeEpisodiosInvalida = 0;
         double duracaoInvalida = 0;
         
@@ -62,6 +64,7 @@ public class SerieTests
             classificacaoInvalida,
             sinopseInvalida,
             urlInvalida,
+            temporadaInvalido,
             quantidadeEpisodiosInvalida,
             duracaoInvalida
         );
@@ -71,7 +74,7 @@ public class SerieTests
         Assert.IsType<Guid>(serie.Id);
         Assert.Equal(Guid.Empty, serie.Id);
         Assert.True(serie.HasErrors);
-        Assert.Equal(8, serie.Errors.Count);
+        Assert.Equal(9, serie.Errors.Count);
     }
     
     [Fact(DisplayName = "Atualizar série com sucesso")]
@@ -93,6 +96,7 @@ public class SerieTests
             5.6,
             24,
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
+            1,
             10,
             35
         );
@@ -117,6 +121,7 @@ public class SerieTests
         int classificacaoInvalida = 0;
         string sinopseInvalida = "";
         string urlInvalida = "url-invalida";
+        int temporadaInvalida = -1;
         int quantidadeEpisodiosInvalida = -1;
         double duracaoEpisodiosInvalida = -1;
         
@@ -130,12 +135,13 @@ public class SerieTests
             0,
             0,
             urlInvalida,
+            temporadaInvalida,
             quantidadeEpisodiosInvalida,
             duracaoEpisodiosInvalida
         );
         
         //Assert
         Assert.True(_serie.HasErrors);
-        Assert.Equal(8, _serie.Errors.Count);
+        Assert.Equal(9, _serie.Errors.Count);
     }
 }
