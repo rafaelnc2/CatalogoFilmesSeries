@@ -1,4 +1,6 @@
-﻿namespace CatalogoFilmesSeries.Domain.Entities;
+﻿using CatalogoFilmesSeries.Domain.ValueObjects;
+
+namespace CatalogoFilmesSeries.Domain.Entities;
 
 public abstract class Show : Entity
 {
@@ -10,33 +12,12 @@ public abstract class Show : Entity
     public int ClassificacaoEtaria { get; protected set; }
     public string Sinopse { get; protected set; }
     public string UrlImagem { get; protected set; }
-    public double AvaliacaoImdb { get; protected set; }
-    public int PopularidadeImdb { get; protected set; }
+    
+    //Mudar dto pelo value object
+    public ImdbInfoVo ImdbInfo { get; protected set; }
+    
     
     public IReadOnlyList<string> Categorias { get => _categorias; }
-    
-    
-    public void SetAvaliacaoImdb(double avaliacao)
-    {
-        if (avaliacao < 0)
-        {
-            _errors.Add("Avaliação informada é inválida");
-            return;
-        }
-        
-        AvaliacaoImdb = avaliacao;   
-    }
-
-    public void SetPopularidadeImdb(int popularidade)
-    {
-        if (popularidade < 0)
-        {
-            _errors.Add("Popularidade informada é inválida");
-            return;
-        }
-        
-        PopularidadeImdb = popularidade;
-    }
     
     
     public void AddCategoria(string categoria)

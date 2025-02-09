@@ -1,4 +1,6 @@
-﻿namespace CatalogoFilmesSeries.Domain.Entities;
+﻿using CatalogoFilmesSeries.Domain.ValueObjects;
+
+namespace CatalogoFilmesSeries.Domain.Entities;
 
 public sealed class Filme : Show
 {
@@ -10,8 +12,8 @@ public sealed class Filme : Show
     }
     
     private Filme(Guid id, string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria, 
-        int duracao, string sinopse, List<string> categorias, string urlImagem, DateTime dataInclusao, DateTime? dataAtualizacao,
-        double avaliacaoImdb = 0, int popularidadeImdb = 0)
+        int duracao, string sinopse, List<string> categorias, string urlImagem, ImdbInfoVo imdbInfo, 
+        DateTime dataInclusao, DateTime? dataAtualizacao)
     {
         Id = id;
         Titulo = titulo;
@@ -24,14 +26,13 @@ public sealed class Filme : Show
         DataInclusao = dataInclusao;
         DataAtualizacao = dataAtualizacao;
         
-        AvaliacaoImdb = avaliacaoImdb;
-        PopularidadeImdb = popularidadeImdb;
+        ImdbInfo = imdbInfo;
         
         _categorias = categorias;
     }
 
     public static Filme Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
-        int duracao, string sinopse, string urlImagem)
+        int duracao, string sinopse, string urlImagem, ImdbInfoVo imdbInfo)
     {
         var filmeValidate = new Filme();
         
@@ -50,6 +51,7 @@ public sealed class Filme : Show
             sinopse: sinopse,
             categorias: [],
             urlImagem: urlImagem,
+            imdbInfo: imdbInfo,
             dataInclusao: DateTime.Now,
             dataAtualizacao: null
         );
@@ -58,7 +60,7 @@ public sealed class Filme : Show
     }
     
     public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
-        int duracao, string sinopse, double? avaliacaoImdb, int? popularidadeImdb, string urlImagem)
+        int duracao, string sinopse, string urlImagem, ImdbInfoVo imdbInfo)
     {
         ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, duracao, sinopse, urlImagem);
         
@@ -72,11 +74,7 @@ public sealed class Filme : Show
         Duracao = duracao;
         Sinopse = sinopse;
         
-        if(avaliacaoImdb.HasValue)
-            AvaliacaoImdb = avaliacaoImdb.Value;
-        
-        if(popularidadeImdb.HasValue)
-            PopularidadeImdb = popularidadeImdb.Value;
+        ImdbInfo = imdbInfo;
         
         UrlImagem = urlImagem;
         

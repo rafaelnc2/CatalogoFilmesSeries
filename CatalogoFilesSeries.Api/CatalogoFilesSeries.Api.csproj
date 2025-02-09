@@ -15,4 +15,8 @@
       <ProjectReference Include="..\CatalogoFilmesSeries.Application\CatalogoFilmesSeries.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="WeatherForecast.cs" />
+    </ItemGroup>
+
 </Project>
