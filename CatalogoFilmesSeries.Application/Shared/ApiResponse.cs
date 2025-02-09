@@ -1,8 +1,10 @@
-﻿namespace CatalogoFilmesSeries.Application.Shared;
+﻿using System.Net;
+
+namespace CatalogoFilmesSeries.Application.Shared;
 
 public sealed class ApiResult<T>
 {
-    private ApiResult(bool success, string message, int statusCode, T? data = default, IEnumerable<string>? errors = null)
+    private ApiResult(bool success, string message, HttpStatusCode statusCode, T? data = default, IEnumerable<string>? errors = null)
     {
         Success = success;
         Data = data;
@@ -16,22 +18,22 @@ public sealed class ApiResult<T>
     public T? Data { get; private set; }
     public string Message { get; private set; }
     public IEnumerable<string>? Errors { get; private set; }
-    public int StatusCode { get; private set; }
+    public HttpStatusCode StatusCode { get; private set; }
 
 
     public static ApiResult<T> Ok(T data, string message = "OK") =>
-        new(success: true, statusCode: 200, message: message, data: data);
+        new(success: true, statusCode: HttpStatusCode.OK, message: message, data: data);
 
     public static ApiResult<T> Created(T data, string message = "Sucesso na inclusão") =>
-        new(success: true, statusCode: 201, message: message, data: data);
+        new(success: true, statusCode: HttpStatusCode.Created, message: message, data: data);
     
     
     public static ApiResult<T> BadRequest(string message = "Erro na requisição", IEnumerable<string>? errors = null) =>
-        new(success: false, statusCode: 400, message: message, errors: errors);
+        new(success: false, statusCode: HttpStatusCode.BadRequest, message: message, errors: errors);
     
     public static ApiResult<T> NotFound(string message = "Não encontrado") =>
-        new(success: false, statusCode: 404, message: message);
+        new(success: false, statusCode: HttpStatusCode.NotFound, message: message);
     
     public static ApiResult<T> InternalServerError(string message = "Erro interno") =>
-        new(success: false, statusCode: 500, message: message);
+        new(success: false, statusCode: HttpStatusCode.InternalServerError, message: message);
 }

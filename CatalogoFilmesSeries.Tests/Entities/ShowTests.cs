@@ -1,4 +1,5 @@
 ﻿using CatalogoFilmesSeries.Domain.Entities;
+using CatalogoFilmesSeries.Domain.ValueObjects;
 
 namespace CatalogoFilmesSeries.Unit.Tests.Entities;
 
@@ -9,10 +10,19 @@ public class ShowTests
     public ShowTests()
     {
         List<string> categorias = ["One-person Army action", "SuperHero", "Action", "Thriller"];
+
+        ImdbInfoVo imdbInfoMock = new(1, 1, 1);
         
-        _filme = Filme.Create("Kraven, o Caçador", "Kraven the Hunter", 2024, 16, 127, 
+        _filme = Filme.Create(
+            "Kraven, o Caçador", 
+            "Kraven the Hunter", 
+            2024, 
+            16, 
+            127, 
             "A complexa relação de Kraven com o pai, Nikolai Kravinoff, o leva a uma jornada de vingança com consequências brutais, o motivando a se tornar um dos maiores e mais temidos caçadores do mundo.", 
-            "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i");
+            "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
+            imdbInfoMock
+        );
 
         foreach (var categoria in categorias)
             _filme.AddCategoria(categoria);
@@ -46,63 +56,5 @@ public class ShowTests
         //Assert
         Assert.True(_filme.HasErrors);
         Assert.Equal("Categoria nula, em branco ou já incluída.", _filme.Errors.First());
-    }
-    
-    [Fact(DisplayName = "Deve atualizar a avalicaoImdb com sucesso")]
-    public void Deve_Atualizar_A_AvalicaoImdb_Com_Sucesso()
-    {
-        //Arrange
-        double avaliacaoImdb = 10;
-        
-        //Act
-        _filme.SetAvaliacaoImdb(avaliacaoImdb);
-        
-        //Assert
-        Assert.False(_filme.HasErrors);
-        Assert.Equal(avaliacaoImdb, _filme.AvaliacaoImdb);
-    }
-    
-    [Fact(DisplayName = "Deve retornar erro ao atualizar a avalicaoImdb com valor iInvalido")]
-    public void Deve_Retornar_Erro_Ao_Atualizar_A_AvalicaoImdb_Com_Valor_Invalido()
-    {
-        //Arrange
-        double avaliacaoImdb = -1;
-        
-        //Act
-        _filme.SetAvaliacaoImdb(avaliacaoImdb);
-        
-        //Assert
-        Assert.True(_filme.HasErrors);
-        Assert.Equal("Avaliação informada é inválida", _filme.Errors.First());
-        Assert.Equal(0, _filme.AvaliacaoImdb);
-    }
-    
-    [Fact(DisplayName = "Deve atualizar a popularidade Imdb com sucesso")]
-    public void Deve_Atualizar_A_PopularidadeImdb_Com_Sucesso()
-    {
-        //Arrange
-        int popularidadeImdb = 100;
-        
-        //Act
-        _filme.SetPopularidadeImdb(popularidadeImdb);
-        
-        //Assert
-        Assert.False(_filme.HasErrors);
-        Assert.Equal(popularidadeImdb, _filme.PopularidadeImdb);
-    }
-    
-    [Fact(DisplayName = "Deve retornar erro ao atualizar a popularidade Imdb com valor iInvalido")]
-    public void Deve_Retornar_Erro_Ao_Atualizar_A_PopularidadeImdb_Com_Valor_Invalido()
-    {
-        //Arrange
-        int popularidadeImdb = -1;
-        
-        //Act
-        _filme.SetPopularidadeImdb(popularidadeImdb);
-        
-        //Assert
-        Assert.True(_filme.HasErrors);
-        Assert.Equal("Popularidade informada é inválida", _filme.Errors.First());
-        Assert.Equal(0, _filme.PopularidadeImdb);
     }
 }

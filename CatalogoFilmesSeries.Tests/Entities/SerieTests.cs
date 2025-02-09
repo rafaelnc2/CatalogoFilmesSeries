@@ -1,4 +1,5 @@
 ﻿using CatalogoFilmesSeries.Domain.Entities;
+using CatalogoFilmesSeries.Domain.ValueObjects;
 
 namespace CatalogoFilmesSeries.Unit.Tests.Entities;
 
@@ -10,6 +11,8 @@ public class SerieTests
     {
         List<string> categorias = ["One-person Army action", "SuperHero", "Action", "Thriller"];
         
+        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        
         _serie = Serie.Create(
             "Kraven, o Caçador", 
             "Kraven the Hunter",
@@ -19,7 +22,8 @@ public class SerieTests
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
             1,
             10,
-            35
+            35,
+            imdbInfoMock
         );
 
         foreach (var categoria in categorias)
@@ -56,6 +60,8 @@ public class SerieTests
         int quantidadeEpisodiosInvalida = 0;
         double duracaoInvalida = 0;
         
+        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        
         //Act
         var serie = Serie.Create(
             tituloInvalido, 
@@ -66,7 +72,8 @@ public class SerieTests
             urlInvalida,
             temporadaInvalido,
             quantidadeEpisodiosInvalida,
-            duracaoInvalida
+            duracaoInvalida,
+            imdbInfoMock
         );
         
         //Assert
@@ -85,6 +92,8 @@ public class SerieTests
         string tituloOriginalAtualizado = "Kraven the Hunter";
         string categoriaParaRemover = "Thriller";
         int qtdCategoriasAtualizada = 3;
+        
+        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
 
         //Act
         _serie.Update(
@@ -97,8 +106,9 @@ public class SerieTests
             24,
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
             1,
-            10,
-            35
+            10, 
+            imdbInfoMock,
+            10
         );
         
         _serie.RemoveCategoria(categoriaParaRemover);
@@ -125,6 +135,8 @@ public class SerieTests
         int quantidadeEpisodiosInvalida = -1;
         double duracaoEpisodiosInvalida = -1;
         
+        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        
         //Act
         _serie.Update(
             tituloInvalido,
@@ -137,6 +149,7 @@ public class SerieTests
             urlInvalida,
             temporadaInvalida,
             quantidadeEpisodiosInvalida,
+            imdbInfoMock,
             duracaoEpisodiosInvalida
         );
         

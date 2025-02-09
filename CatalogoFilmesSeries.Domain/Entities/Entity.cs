@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CatalogoFilmesSeries.Domain.Entities;
+﻿namespace CatalogoFilmesSeries.Domain.Entities;
 
 public abstract class Entity
 {
@@ -9,9 +7,7 @@ public abstract class Entity
     public Guid Id { get; protected set; }
     public DateTime DataInclusao { get; protected  set; }
     public DateTime? DataAtualizacao { get; protected  set; }
-
-    [NotMapped]
+    
     public IReadOnlyList<string> Errors { get => _errors; }
-    [NotMapped]
     public bool HasErrors { get => _errors.Any(); }
 }

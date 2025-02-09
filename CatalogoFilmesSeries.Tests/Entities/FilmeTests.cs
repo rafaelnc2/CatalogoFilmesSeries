@@ -1,4 +1,5 @@
 ﻿using CatalogoFilmesSeries.Domain.Entities;
+using CatalogoFilmesSeries.Domain.ValueObjects;
 
 namespace CatalogoFilmesSeries.Unit.Tests.Entities;
 
@@ -10,9 +11,18 @@ public class FilmeTests
     {
         List<string> categorias = ["One-person Army action", "SuperHero", "Action", "Thriller"];
         
-        _filme = Filme.Create("Kraven, o Caçador", "Kraven the Hunter", 2024, 16, 127, 
+        ImdbInfoVo imdbInfoMock = new(1,1,1);
+        
+        _filme = Filme.Create(
+            "Kraven, o Caçador", 
+            "Kraven the Hunter", 
+            2024, 
+            16, 
+            127, 
             "A complexa relação de Kraven com o pai, Nikolai Kravinoff, o leva a uma jornada de vingança com consequências brutais, o motivando a se tornar um dos maiores e mais temidos caçadores do mundo.", 
-            "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i");
+            "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
+            imdbInfoMock
+        );
 
         foreach (var categoria in categorias)
             _filme.AddCategoria(categoria);
@@ -45,9 +55,19 @@ public class FilmeTests
         int duracaoInvalida = 0;
         string sinopseInvalida = "";
         string urlInvalida = "url-invalida";
+
+        ImdbInfoVo imdbInfoMock = new(1,1,1);
         
         //Act
-        var filme = Filme.Create(tituloInvalido, tituloOriginalInvalido, anoLancamentoInvalido, classificacaoInvalida, duracaoInvalida, sinopseInvalida, urlInvalida);
+        var filme = Filme.Create(
+            tituloInvalido, 
+            tituloOriginalInvalido, 
+            anoLancamentoInvalido, 
+            classificacaoInvalida, 
+            duracaoInvalida, sinopseInvalida, 
+            urlInvalida,
+            imdbInfoMock
+        );
         
         //Assert
         Assert.IsType<Filme>(filme);
@@ -65,11 +85,20 @@ public class FilmeTests
         string tituloOriginalAtualizado = "Kraven the Hunter";
         string categoriaParaRemover = "Thriller";
         int qtdCategoriasAtualizada = 3;
+        
+        ImdbInfoVo imdbInfoMock = new(1,1,1);
 
         //Act
-        _filme.Update(tituloAtualizado, tituloOriginalAtualizado, 2024, 16, 127,
+        _filme.Update(
+            tituloAtualizado, 
+            tituloOriginalAtualizado, 
+            2024, 
+            16, 
+            127,
             "A complexa relação de Kraven com o pai, Nikolai Kravinoff, o leva a uma jornada de vingança com consequências brutais, o motivando a se tornar um dos maiores e mais temidos caçadores do mundo.",
-            5.6, 24, "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i");
+            "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
+            imdbInfoMock
+        );
         
         _filme.RemoveCategoria(categoriaParaRemover);
 
@@ -93,8 +122,19 @@ public class FilmeTests
         string sinopseInvalida = "";
         string urlInvalida = "url-invalida";
         
+        ImdbInfoVo imdbInfoMock = new(-1,-1,-1);
+        
         //Act
-        _filme.Update(tituloInvalido, tituloOriginalInvalido, anoLancamentoInvalido, classificacaoInvalida, duracaoInvalida, sinopseInvalida, 0,0, urlInvalida);
+        _filme.Update(
+            tituloInvalido, 
+            tituloOriginalInvalido, 
+            anoLancamentoInvalido, 
+            classificacaoInvalida, 
+            duracaoInvalida, 
+            sinopseInvalida,
+            urlInvalida,
+            imdbInfoMock
+        );
         
         //Assert
         Assert.True(_filme.HasErrors);
