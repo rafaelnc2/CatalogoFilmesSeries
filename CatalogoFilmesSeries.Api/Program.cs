@@ -7,6 +7,7 @@ using CatalogoFilmesSeries.Application.Interfaces.IIntegrationEvents;
 using CatalogoFilmesSeries.Application.Interfaces.Services;
 using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
 using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Series;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
