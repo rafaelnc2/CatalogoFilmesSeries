@@ -1,8 +1,8 @@
 ﻿namespace CatalogoFilmesSeries.Domain.ValueObjects;
 
-public sealed class ImdbInfoVo : ValueObject
+public sealed class ShowInfoVo : ValueObject
 {
-    public ImdbInfoVo(double? popularity, double? voteAverage, int? voteCount)
+    public ShowInfoVo(double? popularity, double? voteAverage, int? voteCount)
     {
         Validate(ref popularity, ref voteAverage, ref voteCount);
         

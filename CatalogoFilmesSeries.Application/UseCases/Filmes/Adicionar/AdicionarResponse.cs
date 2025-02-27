@@ -25,9 +25,9 @@ public sealed record AdicionarResponse(
             filme.Duracao, 
             filme.Sinopse, 
             filme.UrlImagem, 
-            filme.ImdbInfo.VoteAverage, 
-            filme.ImdbInfo.Popularity, 
-            filme.ImdbInfo.VoteCount,
+            filme.ShowInfo.VoteAverage, 
+            filme.ShowInfo.Popularity, 
+            filme.ShowInfo.VoteCount,
             filme.DataInclusao
         );
 };

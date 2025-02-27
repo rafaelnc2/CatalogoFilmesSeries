@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>CatalogoFilesSeries.Api</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,7 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CatalogoFilmesSeries.Adapters\CatalogoFilmesSeries.Adapters.csproj" />
       <ProjectReference Include="..\CatalogoFilmesSeries.Application\CatalogoFilmesSeries.Application.csproj" />
+      <ProjectReference Include="..\CatalogoFilmesSeries.Infrastructure\CatalogoFilmesSeries.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

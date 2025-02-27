@@ -27,9 +27,9 @@ public sealed record AdicionarResponse(
             serie.ClassificacaoEtaria, 
             serie.Sinopse, 
             serie.UrlImagem, 
-            serie.ImdbInfo.VoteAverage, 
-            serie.ImdbInfo.Popularity, 
-            serie.ImdbInfo.VoteCount,
+            serie.ShowInfo.VoteAverage, 
+            serie.ShowInfo.Popularity, 
+            serie.ShowInfo.VoteCount,
             
             serie.Temporadas,
             serie.QuantidadeEpisodios,

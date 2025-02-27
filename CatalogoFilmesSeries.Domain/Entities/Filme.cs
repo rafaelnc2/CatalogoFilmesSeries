@@ -12,7 +12,7 @@ public sealed class Filme : Show
     }
     
     private Filme(Guid id, string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria, 
-        int duracao, string sinopse, List<string> categorias, string urlImagem, ImdbInfoVo imdbInfo, 
+        int duracao, string sinopse, List<string> categorias, string urlImagem, ShowInfoVo showInfo, 
         DateTime dataInclusao, DateTime? dataAtualizacao)
     {
         Id = id;
@@ -26,13 +26,13 @@ public sealed class Filme : Show
         DataInclusao = dataInclusao;
         DataAtualizacao = dataAtualizacao;
         
-        ImdbInfo = imdbInfo;
+        ShowInfo = showInfo;
         
         _categorias = categorias;
     }
 
     public static Filme Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
-        int duracao, string sinopse, string urlImagem, ImdbInfoVo imdbInfo)
+        int duracao, string sinopse, string urlImagem, ShowInfoVo showInfo)
     {
         var filmeValidate = new Filme();
         
@@ -51,7 +51,7 @@ public sealed class Filme : Show
             sinopse: sinopse,
             categorias: [],
             urlImagem: urlImagem,
-            imdbInfo: imdbInfo,
+            showInfo: showInfo,
             dataInclusao: DateTime.Now,
             dataAtualizacao: null
         );
@@ -60,7 +60,7 @@ public sealed class Filme : Show
     }
     
     public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
-        int duracao, string sinopse, string urlImagem, ImdbInfoVo imdbInfo)
+        int duracao, string sinopse, string urlImagem, ShowInfoVo showInfo)
     {
         ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, duracao, sinopse, urlImagem);
         
@@ -74,7 +74,7 @@ public sealed class Filme : Show
         Duracao = duracao;
         Sinopse = sinopse;
         
-        ImdbInfo = imdbInfo;
+        ShowInfo = showInfo;
         
         UrlImagem = urlImagem;
         

@@ -1,4 +1,4 @@
-﻿namespace CatalogoFilmesSeries.Application.Interfaces.Repositories;
+﻿namespace CatalogoFilmesSeries.Domain.Interfaces.Repositories;
 
 public interface IWriteRepository<T> where T : Entity
 {

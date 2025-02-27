@@ -1,5 +1,4 @@
-﻿using CatalogoFilmesSeries.Application.Interfaces.Repositories.Filmes;
-using CatalogoFilmesSeries.Domain.ValueObjects;
+﻿using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
 
 namespace CatalogoFilmesSeries.Application.UseCases.Filmes.Adicionar;
 
@@ -7,19 +6,19 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
 {
     private readonly ILogger<AdicionarHandler> _logger;
     
-    private readonly IExternalShowInfoService _externalShowInfoService;
+    private readonly IShowInfoService _showInfoService;
     private readonly IFilmeWriteRepository _filmeWriteRepository;
     private readonly IFilmeReadRepository _filmeReadRepository;
     private readonly IIntegrationEventPublisher _integrationEventPublisher;
 
     public AdicionarHandler(ILogger<AdicionarHandler> logger, 
-        IExternalShowInfoService externalShowInfoService, 
+        IShowInfoService showInfoService, 
         IFilmeWriteRepository filmeWriteRepository, IFilmeReadRepository filmeReadRepository, 
         IIntegrationEventPublisher integrationEventPublisher)
     {
         _logger = logger;
         
-        _externalShowInfoService = externalShowInfoService;
+        _showInfoService = showInfoService;
         _filmeWriteRepository = filmeWriteRepository;
         _filmeReadRepository = filmeReadRepository;
         _integrationEventPublisher = integrationEventPublisher;
@@ -37,7 +36,7 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
             return ApiResult<AdicionarResponse>.BadRequest($"Titulo informado já existe com ID {movieExists.Id}");
         }
         
-        ImdbInfoVo imdbInfo = await GetImdbInfoAsync(command.Titulo);
+        ShowInfoVo showInfo = await _showInfoService.GetFilmeImdbInfoAsync(command.Titulo, command.AnoLancamento, cancellationToken);
         
         var filme = Filme.Create(
             command.Titulo, 
@@ -47,7 +46,7 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
             command.Duracao, 
             command.Sinopse, 
             command.UrlImagem,
-            imdbInfo
+            showInfo
         );
 
         if (filme.HasErrors)
@@ -66,13 +65,7 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
         
         return ApiResult<AdicionarResponse>.Created(response);
     }
-
-    private async Task<ImdbInfoVo> GetImdbInfoAsync(string titulo)
-    {
-        var imdbInfoDto = await _externalShowInfoService.GetImdbDataAsync(titulo);
-
-        return new(imdbInfoDto?.Popularity, imdbInfoDto?.VoteAverage, imdbInfoDto?.VoteCount);
-    } 
+    
     
     private async Task PublishEventsAsync(Filme filme)
     {

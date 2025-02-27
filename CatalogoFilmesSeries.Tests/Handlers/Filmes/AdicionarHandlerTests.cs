@@ -1,6 +1,8 @@
-﻿using CatalogoFilmesSeries.Application.Interfaces.IIntegrationEvents;
-using CatalogoFilmesSeries.Application.Interfaces.Repositories.Filmes;
+﻿using System.Runtime.CompilerServices;
+using CatalogoFilmesSeries.Application.Interfaces.IIntegrationEvents;
+using CatalogoFilmesSeries.Application.Interfaces.Services;
 using CatalogoFilmesSeries.Application.UseCases.Filmes.Adicionar;
+using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
 
 namespace CatalogoFilmesSeries.Unit.Tests.Handlers.Filmes;
 
@@ -8,7 +10,7 @@ public class AdicionarHandlerTests
 {
     private readonly Mock<ILogger<AdicionarHandler>> _loggerMock;
     
-    private readonly Mock<IExternalShowInfoService> _externalShowInfoServiceMock;
+    private readonly Mock<IShowInfoService> _imdbInfoServiceMock;
     private readonly Mock<IFilmeWriteRepository> _filmeWriteRepositoryMock;
     private readonly Mock<IFilmeReadRepository> _filmeReadRepositoryMock;
 
@@ -17,7 +19,7 @@ public class AdicionarHandlerTests
     public AdicionarHandlerTests()
     {
         _loggerMock = new Mock<ILogger<AdicionarHandler>>();
-        _externalShowInfoServiceMock = new Mock<IExternalShowInfoService>();
+        _imdbInfoServiceMock = new Mock<IShowInfoService>();
         _filmeWriteRepositoryMock = new Mock<IFilmeWriteRepository>();
         _filmeReadRepositoryMock = new Mock<IFilmeReadRepository>();
         _integrationEventPublisherMock = new Mock<IIntegrationEventPublisher>();
@@ -27,7 +29,7 @@ public class AdicionarHandlerTests
     public async Task AdicionarHandler_Deve_Adicionar_Um_Novo_Filme_Com_Sucesso()
     {
         //Arrange
-        ImdbInfoVo imdbInfoMock = new(1, 1, 1);
+        ShowInfoVo showInfoMock = new(1, 1, 1);
         
         var commandMock = new AdicionarCommand(
             "Kraven, o Caçador",
@@ -39,15 +41,19 @@ public class AdicionarHandlerTests
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i"
         );
 
-        ImdbDataDto imdbDataMock = new(4138.501, 6.6, 100);
+        ShowInfoVo showDataMock = new(4138.501, 6.6, 100);
 
-        _externalShowInfoServiceMock
-            .Setup(method => method.GetImdbDataAsync(It.IsAny<string>()))
-            .ReturnsAsync(imdbDataMock);
+        _imdbInfoServiceMock
+            .Setup(method => method.GetFilmeImdbInfoAsync(It.IsAny<string>(),It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(showDataMock);
         
-        var adicionarHandler  = new AdicionarHandler(_loggerMock.Object, 
-            _externalShowInfoServiceMock.Object, _filmeWriteRepositoryMock.Object, _filmeReadRepositoryMock.Object,
-            _integrationEventPublisherMock.Object);
+        var adicionarHandler  = new AdicionarHandler(
+            _loggerMock.Object, 
+            _imdbInfoServiceMock.Object, 
+            _filmeWriteRepositoryMock.Object, 
+            _filmeReadRepositoryMock.Object,
+            _integrationEventPublisherMock.Object
+        );
         
         //Act
         var result = await adicionarHandler.Handle(commandMock, CancellationToken.None);
@@ -57,12 +63,12 @@ public class AdicionarHandlerTests
         Assert.True(result.Success);
         Assert.Empty(result.Errors!);
         
-        Assert.Equal(imdbDataMock.Popularity, result.Data.PopularidadeImdb);
-        Assert.Equal(imdbDataMock.VoteAverage, result.Data.AvaliacaoImdb);
-        Assert.Equal(imdbDataMock.VoteCount, result.Data.QuantidadeVotosImdb);
+        Assert.Equal(showDataMock.Popularity, result.Data.PopularidadeImdb);
+        Assert.Equal(showDataMock.VoteAverage, result.Data.AvaliacaoImdb);
+        Assert.Equal(showDataMock.VoteCount, result.Data.QuantidadeVotosImdb);
         
-        _externalShowInfoServiceMock.Verify(
-            method => method.GetImdbDataAsync(It.IsAny<string>()),
+        _imdbInfoServiceMock.Verify(
+            method => method.GetFilmeImdbInfoAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>()),
             Times.Once
         );
         
@@ -86,7 +92,7 @@ public class AdicionarHandlerTests
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i"
         );
 
-        ImdbInfoVo imdbInfoMock = new(4138.501, 6.6, 100);
+        ShowInfoVo showInfoMock = new(4138.501, 6.6, 100);
         
         var filmeMcok = Filme.Create(
             commandMock.Titulo, 
@@ -96,16 +102,20 @@ public class AdicionarHandlerTests
             commandMock.Duracao, 
             commandMock.Sinopse, 
             commandMock.UrlImagem,
-            imdbInfoMock
+            showInfoMock
         );
 
         _filmeReadRepositoryMock
             .Setup(method => method.SearchByNameAsync(It.IsAny<string>()))
             .ReturnsAsync(filmeMcok);
         
-        var adicionarHandler  = new AdicionarHandler(_loggerMock.Object, 
-            _externalShowInfoServiceMock.Object, _filmeWriteRepositoryMock.Object, _filmeReadRepositoryMock.Object,
-            _integrationEventPublisherMock.Object);
+        var adicionarHandler  = new AdicionarHandler(
+            _loggerMock.Object, 
+            _imdbInfoServiceMock.Object, 
+            _filmeWriteRepositoryMock.Object, 
+            _filmeReadRepositoryMock.Object,
+            _integrationEventPublisherMock.Object
+        );
         
         //Act
         var result = await adicionarHandler.Handle(commandMock, CancellationToken.None);
@@ -121,8 +131,8 @@ public class AdicionarHandlerTests
             Times.Once
         );
         
-        _externalShowInfoServiceMock.Verify(
-            method => method.GetImdbDataAsync(It.IsAny<string>()),
+        _imdbInfoServiceMock.Verify(
+            method => method.GetFilmeImdbInfoAsync(It.IsAny<string>(),It.IsAny<int>(), It.IsAny<CancellationToken>()),
             Times.Never
         );
         
@@ -152,9 +162,13 @@ public class AdicionarHandlerTests
             .Setup(method => method.SearchByNameAsync(It.IsAny<string>()))
             .ReturnsAsync(filmeMock);
         
-        var adicionarHandler  = new AdicionarHandler(_loggerMock.Object, 
-            _externalShowInfoServiceMock.Object, _filmeWriteRepositoryMock.Object, _filmeReadRepositoryMock.Object,
-            _integrationEventPublisherMock.Object);
+        var adicionarHandler  = new AdicionarHandler(
+            _loggerMock.Object, 
+            _imdbInfoServiceMock.Object, 
+            _filmeWriteRepositoryMock.Object, 
+            _filmeReadRepositoryMock.Object,
+            _integrationEventPublisherMock.Object
+        );
         
         //Act
         var result = await adicionarHandler.Handle(commandMock, CancellationToken.None);
@@ -170,8 +184,8 @@ public class AdicionarHandlerTests
             Times.Once
         );
 
-        _externalShowInfoServiceMock.Verify(
-            method => method.GetImdbDataAsync(It.IsAny<string>()),
+        _imdbInfoServiceMock.Verify(
+            method => method.GetFilmeImdbInfoAsync(It.IsAny<string>(),It.IsAny<int>(), It.IsAny<CancellationToken>()),
             Times.Once
         );
         

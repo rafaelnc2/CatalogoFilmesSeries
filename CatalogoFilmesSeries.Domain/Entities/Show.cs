@@ -14,7 +14,7 @@ public abstract class Show : Entity
     public string UrlImagem { get; protected set; }
     
     //Mudar dto pelo value object
-    public ImdbInfoVo ImdbInfo { get; protected set; }
+    public ShowInfoVo ShowInfo { get; protected set; }
     
     
     public IReadOnlyList<string> Categorias { get => _categorias; }

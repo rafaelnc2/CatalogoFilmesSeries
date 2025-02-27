@@ -1,4 +1,4 @@
-﻿namespace CatalogoFilmesSeries.Application.Interfaces.Repositories.Filmes;
+﻿namespace CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
 
 public interface IFilmeReadRepository : IReadRepository<Filme>
 {
