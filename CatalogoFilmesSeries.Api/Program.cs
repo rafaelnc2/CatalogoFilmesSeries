@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddBootstrapperRegistration();
+builder.Services.AddBootstrapperRegistration(builder.Configuration);
 
 builder.Services.AddMediator();
 

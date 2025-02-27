@@ -1,5 +1,0 @@
-﻿global using CatalogoFilmesSeries.Adapters.Outbound;
-global using CatalogoFilmesSeries.Adapters.Outbound.IntegrationEventPublishers;
-global using CatalogoFilmesSeries.Application.Interfaces.IIntegrationEvents;
-global using CatalogoFilmesSeries.Application.Interfaces.Services;
-global using Microsoft.Extensions.DependencyInjection;

@@ -3,7 +3,7 @@ using CatalogoFilmesSeries.Adapters.Outbound.Repositories.Series;
 using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
 using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Series;
 
-namespace CatalogoFilmesSeries.Infrastructure.IoC;
+namespace CatalogoFilesSeries.Api.IoC;
 
 internal sealed class RepositoriesBootstrapper
 {

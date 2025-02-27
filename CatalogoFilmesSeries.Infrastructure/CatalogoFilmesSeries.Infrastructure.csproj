@@ -7,9 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CatalogoFilmesSeries.Adapters\CatalogoFilmesSeries.Adapters.csproj" />
       <ProjectReference Include="..\CatalogoFilmesSeries.Application\CatalogoFilmesSeries.Application.csproj" />
       <ProjectReference Include="..\CatalogoFilmesSeries.Domain\CatalogoFilmesSeries.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
     </ItemGroup>
 
 </Project>

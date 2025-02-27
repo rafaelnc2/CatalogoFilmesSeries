@@ -1,9 +1,8 @@
-﻿using CatalogoFilmesSeries.Domain.Entities;
-using CatalogoFilmesSeries.Domain.Interfaces.Repositories;
+﻿using CatalogoFilmesSeries.Domain.Interfaces.Repositories;
 
 namespace CatalogoFilmesSeries.Adapters.Outbound.Repositories;
 
-public class WriteRepository<T> : IWriteRepository<T> where T : Entity
+public abstract class WriteRepository<T> : IWriteRepository<T> where T : Entity
 {
     public Task AddAsync(T entity)
     {

@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CatalogoFilmesSeries.Application\CatalogoFilmesSeries.Application.csproj" />
+      <ProjectReference Include="..\CatalogoFilmesSeries.Infrastructure\CatalogoFilmesSeries.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

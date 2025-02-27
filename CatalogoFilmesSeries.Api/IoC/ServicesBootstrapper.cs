@@ -1,4 +1,7 @@
-﻿namespace CatalogoFilmesSeries.Infrastructure.IoC;
+﻿using CatalogoFilmesSeries.Adapters.Outbound;
+using CatalogoFilmesSeries.Application.Interfaces.Services;
+
+namespace CatalogoFilesSeries.Api.IoC;
 
 internal sealed class ServicesBootstrapper
 {

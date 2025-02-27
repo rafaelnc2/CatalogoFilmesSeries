@@ -1,9 +1,8 @@
-﻿using CatalogoFilmesSeries.Domain.Entities;
-using CatalogoFilmesSeries.Domain.Interfaces.Repositories;
+﻿using CatalogoFilmesSeries.Domain.Interfaces.Repositories;
 
 namespace CatalogoFilmesSeries.Adapters.Outbound.Repositories;
 
-public class ReadRepository<T> : IReadRepository<T> where T : Entity
+public abstract class ReadRepository<T> : IReadRepository<T> where T : Entity
 {
     public Task<T> GetByIdAsync(Guid id)
     {

@@ -1,5 +1,4 @@
-﻿using CatalogoFilmesSeries.Domain.Entities;
-using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
+﻿using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Filmes;
 
 namespace CatalogoFilmesSeries.Adapters.Outbound.Repositories.Filmes;
 
