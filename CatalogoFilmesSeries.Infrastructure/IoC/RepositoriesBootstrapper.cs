@@ -5,14 +5,10 @@ using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Series;
 
 namespace CatalogoFilmesSeries.Infrastructure.IoC;
 
-internal class RepositoriesBootstrapper
+internal sealed class RepositoriesBootstrapper
 {
     public void RepositoriesServiceRegister(IServiceCollection services)
     {
-        services.AddSingleton<IIntegrationEventPublisher, IntegrationEventPublisher>();
-
-        services.AddTransient<IShowInfoService, ShowInfoTMDBAdapter>();
-
         services.AddScoped<IFilmeReadRepository, FilmeReadRepository>();
         services.AddScoped<IFilmeWriteRepository, FilmeWriteRepository>();
 
