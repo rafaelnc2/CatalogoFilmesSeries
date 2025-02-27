@@ -1,5 +1,4 @@
-﻿using CatalogoFilmesSeries.Application.Interfaces.Repositories.Series;
-using CatalogoFilmesSeries.Domain.ValueObjects;
+﻿using CatalogoFilmesSeries.Domain.Interfaces.Repositories.Series;
 
 namespace CatalogoFilmesSeries.Application.UseCases.Series.Adicionar;
 
@@ -7,17 +6,17 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
 {
     private readonly ILogger<AdicionarHandler> _logger;
     
-    private readonly IExternalShowInfoService _externalShowInfoService;
+    private readonly IShowInfoService _showInfoService;
     private readonly ISerieWriteRepository _serieWriteRepository;
     private readonly ISerieReadRepository _serieReadRepository;
     private readonly IIntegrationEventPublisher _integrationEventPublisher;
  
-    public AdicionarHandler(ILogger<AdicionarHandler> logger, IExternalShowInfoService externalShowInfoService, 
+    public AdicionarHandler(ILogger<AdicionarHandler> logger, IShowInfoService showInfoService, 
         ISerieWriteRepository serieWriteRepository, ISerieReadRepository serieReadRepository, IIntegrationEventPublisher integrationEventPublisher)
     {
         _logger = logger;
         
-        _externalShowInfoService = externalShowInfoService;
+        _showInfoService = showInfoService;
         _serieWriteRepository = serieWriteRepository;
         _serieReadRepository = serieReadRepository;
 
@@ -36,7 +35,7 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
             return ApiResult<AdicionarResponse>.BadRequest($"Titulo informado já existe com ID {movieExists.Id}");
         }
         
-        ImdbInfoVo imdbInfo = await GetImdbInfoAsync(command.Titulo);
+        ShowInfoVo showInfo = await _showInfoService.GetSerieImdbInfoAsync(command.Titulo, command.AnoLancamento, cancellationToken);
 
         var serie = Serie.Create(
             command.Titulo, 
@@ -47,7 +46,7 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
             command.UrlImagem, 
             command.Termporadas, 
             command.QuantidadeEpisodios, 
-            command.DuracaoEpisodios, imdbInfo
+            command.DuracaoEpisodios, showInfo
         );
         
         if (serie.HasErrors)
@@ -66,13 +65,6 @@ public sealed class AdicionarHandler : IRequestHandler<AdicionarCommand, ApiResu
         
         return ApiResult<AdicionarResponse>.Created(response);
     }
-    
-    private async Task<ImdbInfoVo> GetImdbInfoAsync(string titulo)
-    {
-        var imdbInfoDto = await _externalShowInfoService.GetImdbDataAsync(titulo);
-
-        return new(imdbInfoDto?.Popularity, imdbInfoDto?.VoteAverage, imdbInfoDto?.VoteCount);
-    } 
     
     private async Task PublishEventsAsync(Serie serie)
     {

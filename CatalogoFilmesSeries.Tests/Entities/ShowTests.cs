@@ -11,7 +11,7 @@ public class ShowTests
     {
         List<string> categorias = ["One-person Army action", "SuperHero", "Action", "Thriller"];
 
-        ImdbInfoVo imdbInfoMock = new(1, 1, 1);
+        ShowInfoVo showInfoMock = new(1, 1, 1);
         
         _filme = Filme.Create(
             "Kraven, o Caçador", 
@@ -21,7 +21,7 @@ public class ShowTests
             127, 
             "A complexa relação de Kraven com o pai, Nikolai Kravinoff, o leva a uma jornada de vingança com consequências brutais, o motivando a se tornar um dos maiores e mais temidos caçadores do mundo.", 
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
-            imdbInfoMock
+            showInfoMock
         );
 
         foreach (var categoria in categorias)

@@ -11,7 +11,7 @@ public class SerieTests
     {
         List<string> categorias = ["One-person Army action", "SuperHero", "Action", "Thriller"];
         
-        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        ShowInfoVo showInfoMock = new(10, 50, 100);
         
         _serie = Serie.Create(
             "Kraven, o Caçador", 
@@ -23,7 +23,7 @@ public class SerieTests
             1,
             10,
             35,
-            imdbInfoMock
+            showInfoMock
         );
 
         foreach (var categoria in categorias)
@@ -60,7 +60,7 @@ public class SerieTests
         int quantidadeEpisodiosInvalida = 0;
         double duracaoInvalida = 0;
         
-        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        ShowInfoVo showInfoMock = new(10, 50, 100);
         
         //Act
         var serie = Serie.Create(
@@ -73,7 +73,7 @@ public class SerieTests
             temporadaInvalido,
             quantidadeEpisodiosInvalida,
             duracaoInvalida,
-            imdbInfoMock
+            showInfoMock
         );
         
         //Assert
@@ -93,7 +93,7 @@ public class SerieTests
         string categoriaParaRemover = "Thriller";
         int qtdCategoriasAtualizada = 3;
         
-        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        ShowInfoVo showInfoMock = new(10, 50, 100);
 
         //Act
         _serie.Update(
@@ -107,7 +107,7 @@ public class SerieTests
             "https://www.imdb.com/title/tt8790086/mediaviewer/rm1284204801/?ref_=tt_ov_i",
             1,
             10, 
-            imdbInfoMock,
+            showInfoMock,
             10
         );
         
@@ -135,7 +135,7 @@ public class SerieTests
         int quantidadeEpisodiosInvalida = -1;
         double duracaoEpisodiosInvalida = -1;
         
-        ImdbInfoVo imdbInfoMock = new(10, 50, 100);
+        ShowInfoVo showInfoMock = new(10, 50, 100);
         
         //Act
         _serie.Update(
@@ -149,7 +149,7 @@ public class SerieTests
             urlInvalida,
             temporadaInvalida,
             quantidadeEpisodiosInvalida,
-            imdbInfoMock,
+            showInfoMock,
             duracaoEpisodiosInvalida
         );
         

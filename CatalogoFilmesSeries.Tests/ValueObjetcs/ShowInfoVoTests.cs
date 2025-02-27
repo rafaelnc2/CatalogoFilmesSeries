@@ -2,7 +2,7 @@
 
 namespace CatalogoFilmesSeries.Unit.Tests.ValueObjetcs;
 
-public class ImdbInfoVoTests
+public class ShowInfoVoTests
 {
     [Fact(DisplayName = "Deve criar uma nova instância corretamente")]
     public void ImdbInfoVo_Deve_Criar_Uma_Instancia_Com_Sucesso()
@@ -13,15 +13,15 @@ public class ImdbInfoVoTests
         int? voteCount = 100;
 
         //Act
-        ImdbInfoVo imdbInfoVo = new(popularity, voteAverage, voteCount); 
+        ShowInfoVo showInfoVo = new(popularity, voteAverage, voteCount); 
 
         //Assert
-        Assert.IsType<ImdbInfoVo>(imdbInfoVo);
-        Assert.False(imdbInfoVo.HasErrors);
+        Assert.IsType<ShowInfoVo>(showInfoVo);
+        Assert.False(showInfoVo.HasErrors);
         
-        Assert.Equal(popularity, imdbInfoVo.Popularity);
-        Assert.Equal(voteAverage, imdbInfoVo.VoteAverage);
-        Assert.Equal(voteCount, imdbInfoVo.VoteCount);
+        Assert.Equal(popularity, showInfoVo.Popularity);
+        Assert.Equal(voteAverage, showInfoVo.VoteAverage);
+        Assert.Equal(voteCount, showInfoVo.VoteCount);
     }
     
     [Fact(DisplayName = "Deve criar uma nova instância com os valores iguais a zero quando parâmetros forem nulos")]
@@ -33,14 +33,14 @@ public class ImdbInfoVoTests
         int? voteCount = null;
 
         //Act
-        ImdbInfoVo imdbInfoVo = new(popularity, voteAverage, voteCount); 
+        ShowInfoVo showInfoVo = new(popularity, voteAverage, voteCount); 
 
         //Assert
-        Assert.IsType<ImdbInfoVo>(imdbInfoVo);
-        Assert.False(imdbInfoVo.HasErrors);
+        Assert.IsType<ShowInfoVo>(showInfoVo);
+        Assert.False(showInfoVo.HasErrors);
         
-        Assert.Equal(0, imdbInfoVo.Popularity);
-        Assert.Equal(0, imdbInfoVo.VoteAverage);
-        Assert.Equal(0, imdbInfoVo.VoteCount);
+        Assert.Equal(0, showInfoVo.Popularity);
+        Assert.Equal(0, showInfoVo.VoteAverage);
+        Assert.Equal(0, showInfoVo.VoteCount);
     }
 }

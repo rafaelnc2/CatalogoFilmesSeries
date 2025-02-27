@@ -16,7 +16,7 @@ public sealed class Serie : Show
     
     private Serie(Guid id, string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria, 
         string sinopse, List<string> categorias, string urlImagem, int temporadas, int quantidadeEpisodios, double duracaoEpisodios,
-        ImdbInfoVo imdbInfo, DateTime dataInclusao, DateTime? dataAtualizacao)
+        ShowInfoVo showInfo, DateTime dataInclusao, DateTime? dataAtualizacao)
     {
         Id = id;
         Titulo = titulo;
@@ -33,13 +33,13 @@ public sealed class Serie : Show
         DataInclusao = dataInclusao;
         DataAtualizacao = dataAtualizacao;
 
-        ImdbInfo = imdbInfo;
+        ShowInfo = showInfo;
         
         _categorias = categorias;
     }
 
     public static Serie Create(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
-        string sinopse, string urlImagem, int temporadas, int quantidadeEpisodios, double duracaoEpisodios, ImdbInfoVo imdbInfo)
+        string sinopse, string urlImagem, int temporadas, int quantidadeEpisodios, double duracaoEpisodios, ShowInfoVo showInfo)
     {
         var serieValidate = new Serie();
         
@@ -60,7 +60,7 @@ public sealed class Serie : Show
             temporadas: temporadas,
             quantidadeEpisodios: quantidadeEpisodios,
             duracaoEpisodios: duracaoEpisodios,
-            imdbInfo,
+            showInfo,
             dataInclusao: DateTime.Now,
             dataAtualizacao: null
         );
@@ -70,7 +70,7 @@ public sealed class Serie : Show
         
     public void Update(string titulo, string tituloOriginal, int anoLancamento, int classificacaoEtaria,
         string sinopse, double? avaliacaoImdb, int? popularidadeImdb, string urlImagem, int temporadas, int quantidadeEpisodios, 
-        ImdbInfoVo imdbInfo, double duracaoEpisodios)
+        ShowInfoVo showInfo, double duracaoEpisodios)
     {
         ValidarDados(titulo, tituloOriginal, anoLancamento, classificacaoEtaria, sinopse, urlImagem, temporadas, quantidadeEpisodios, duracaoEpisodios);
         
@@ -89,7 +89,7 @@ public sealed class Serie : Show
         QuantidadeEpisodios = quantidadeEpisodios;
         DuracaoEpisodios = duracaoEpisodios;
         
-        ImdbInfo = imdbInfo;
+        ShowInfo = showInfo;
         
         DataAtualizacao = DateTime.Now;
     }
